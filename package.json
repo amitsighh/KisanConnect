@@ -1,0 +1,10 @@
+{
+  "name": "kisanconnect-monorepo",
+  "version": "1.0.0",
+  "description": "KisanConnect — Direct Farmer-to-Buyer Marketplace (SIH26033)",
+  "scripts": {
+    "server": "cd server && npm start",
+    "client": "cd client && npm run dev",
+    "build": "cd client && npm run build"
+  }
+}
