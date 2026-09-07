@@ -53,7 +53,7 @@ export const LoginPage = () => {
           <span className="text-[10px] text-emerald-400 font-mono">DEMO MODE</span>
         </div>
         <p className="text-xs text-slate-300">
-          Click any seed account below to test Supabase role authentication:
+          Click any seed account below to test role authentication:
         </p>
 
         <div className="grid grid-cols-3 gap-2 pt-1">

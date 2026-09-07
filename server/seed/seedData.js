@@ -81,14 +81,89 @@ const seedDB = async () => {
             farmName: 'Sahyadri Organic Orchard',
             farmSizeAcres: 9,
             fpoName: 'Nashik Onion & Grape Collective',
-            primaryCrops: ['Red Onion', 'Thomson Grapes', 'Pomegranate']
+            primaryCrops: ['Red Onion', 'Thomson Grapes', 'Tomato']
           }
         }
       }
     });
     const farmer3Id = farmer3Auth.data?.user?.id;
 
-    // 4. Buyer 1: FreshMart
+    // 4. Farmer 4: G. Ramanathan (Spices - Tamil Nadu)
+    const farmer4Auth = await supabase.auth.signUp({
+      email: 'farmer4@kisanconnect.in',
+      password: 'password123',
+      options: {
+        data: {
+          name: 'G. Ramanathan',
+          phone: '9842109876',
+          role: 'farmer',
+          district: 'Erode',
+          state: 'Tamil Nadu',
+          pincode: '638001',
+          address: 'Main Road, Modakkurichi',
+          village: 'Modakkurichi',
+          farm_details: {
+            farmName: 'Kaveri Organic Spice Plantation',
+            farmSizeAcres: 12,
+            fpoName: 'Erode Turmeric Producers FPO',
+            primaryCrops: ['Turmeric', 'Pepper', 'Ginger']
+          }
+        }
+      }
+    });
+    const farmer4Id = farmer4Auth.data?.user?.id;
+
+    // 5. Farmer 5: Santosh Sawant (Fruits - Ratnagiri, Maharashtra)
+    const farmer5Auth = await supabase.auth.signUp({
+      email: 'farmer5@kisanconnect.in',
+      password: 'password123',
+      options: {
+        data: {
+          name: 'Santosh Sawant',
+          phone: '9822334455',
+          role: 'farmer',
+          district: 'Ratnagiri',
+          state: 'Maharashtra',
+          pincode: '415612',
+          address: 'Pawas Coastal Road',
+          village: 'Pawas',
+          farm_details: {
+            farmName: 'Konkan Coastal Mango Orchards',
+            farmSizeAcres: 18,
+            fpoName: 'Ratnagiri Hapus GI Growers Association',
+            primaryCrops: ['Alphonso Mango', 'Cashew', 'Kokum']
+          }
+        }
+      }
+    });
+    const farmer5Id = farmer5Auth.data?.user?.id;
+
+    // 6. Farmer 6: Mahadev Shinde (Other / Jaggery - Kolhapur, Maharashtra)
+    const farmer6Auth = await supabase.auth.signUp({
+      email: 'farmer6@kisanconnect.in',
+      password: 'password123',
+      options: {
+        data: {
+          name: 'Mahadev Shinde',
+          phone: '9850123456',
+          role: 'farmer',
+          district: 'Kolhapur',
+          state: 'Maharashtra',
+          pincode: '416003',
+          address: 'Shirol Sugarcane Belt',
+          village: 'Shirol',
+          farm_details: {
+            farmName: 'Panchganga Traditional Cane Jaggery Farm',
+            farmSizeAcres: 15,
+            fpoName: 'Kolhapur Organic Gur Producers Cooperative',
+            primaryCrops: ['Sugarcane', 'Organic Jaggery']
+          }
+        }
+      }
+    });
+    const farmer6Id = farmer6Auth.data?.user?.id;
+
+    // 7. Buyer 1: FreshMart
     const buyer1Auth = await supabase.auth.signUp({
       email: 'buyer@kisanconnect.in',
       password: 'password123',
@@ -111,7 +186,7 @@ const seedDB = async () => {
     });
     const buyer1Id = buyer1Auth.data?.user?.id;
 
-    // 5. Buyer 2: Swad HORECA
+    // 8. Buyer 2: Swad HORECA
     const buyer2Auth = await supabase.auth.signUp({
       email: 'buyer2@kisanconnect.in',
       password: 'password123',
@@ -134,7 +209,7 @@ const seedDB = async () => {
     });
     const buyer2Id = buyer2Auth.data?.user?.id;
 
-    // 6. Admin
+    // 9. Admin
     const adminAuth = await supabase.auth.signUp({
       email: 'admin@kisanconnect.in',
       password: 'password123',
@@ -154,11 +229,12 @@ const seedDB = async () => {
     console.log('[Seed] Creating produce listings in Supabase...');
 
     const listingsPayload = [
+      // 1. CEREALS & GRAINS
       {
         farmer_id: farmer1Id,
         crop_name: 'Sehore Sharbati Wheat (GI Tagged)',
         category: 'Cereals & Grains',
-        variety: 'C-306 Golden Grain',
+        variety: 'Sharbati',
         quantity: 120,
         min_order_quantity: 5,
         unit: 'quintal',
@@ -170,35 +246,37 @@ const seedDB = async () => {
         pincode: '466001',
         harvest_date: '2026-03-15',
         images: [
-          'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=800&auto=format&fit=crop&q=70',
-          'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&auto=format&fit=crop&q=70'
+          '/images/sharbati_wheat.jpg',
+          'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=800&auto=format&fit=crop&q=70'
         ],
         description: 'Authentic pure Sharbati wheat grown in black cotton soil with natural rainwater. High protein content, golden luster, zero pesticide residue.',
         is_organic: true,
         status: 'active'
       },
+      // 2. PULSES
       {
-        farmer_id: farmer2Id,
-        crop_name: '1121 Pusa Basmati Rice',
-        category: 'Cereals & Grains',
-        variety: 'Extra Long Grain (Aged 1 Year)',
-        quantity: 85,
-        min_order_quantity: 10,
+        farmer_id: farmer1Id,
+        crop_name: 'Indore Green Moong',
+        category: 'Pulses',
+        variety: 'Moong',
+        quantity: 65,
+        min_order_quantity: 5,
         unit: 'quintal',
-        price_per_unit: 4800,
+        price_per_unit: 7200,
         quality_grade: 'Grade A (Premium)',
-        village: 'Doraha',
-        district: 'Ludhiana',
-        state: 'Punjab',
-        pincode: '141421',
-        harvest_date: '2026-02-20',
+        village: 'Sanwer',
+        district: 'Indore',
+        state: 'Madhya Pradesh',
+        pincode: '453551',
+        harvest_date: '2026-03-22',
         images: [
-          'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=800&auto=format&fit=crop&q=70'
+          '/images/green_moong.jpg'
         ],
-        description: 'Aged 1121 extra-long aromatic Basmati rice. Average grain length 8.4mm with delicate floral aroma. Ideal for premium export and catering.',
-        is_organic: false,
+        description: 'Premium unpolished whole green moong beans grown organically in Malwa plateau. High protein, fast cooking, double machine sorted with zero foreign matter.',
+        is_organic: true,
         status: 'active'
       },
+      // 3. VEGETABLES
       {
         farmer_id: farmer3Id,
         crop_name: 'Nashik Red Quality Onions',
@@ -215,34 +293,130 @@ const seedDB = async () => {
         pincode: '422209',
         harvest_date: '2026-03-28',
         images: [
+          '/images/red_onions.jpg',
           'https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb?w=800&auto=format&fit=crop&q=70'
         ],
         description: 'Freshly harvested dry cured Nashik red onions with thick skin and excellent shelf life (up to 4 months in ventilated storage).',
         is_organic: false,
         status: 'active'
       },
+      // 4. FRUITS
       {
-        farmer_id: farmer1Id,
-        crop_name: 'Yellow Soya Bean (High Protein)',
-        category: 'Oilseeds',
-        variety: 'JS-9560',
-        quantity: 90,
-        min_order_quantity: 5,
+        farmer_id: farmer5Id,
+        crop_name: 'Ratnagiri Alphonso Mangoes',
+        category: 'Fruits',
+        variety: 'Alphonso',
+        quantity: 40,
+        min_order_quantity: 2,
         unit: 'quintal',
-        price_per_unit: 3950,
+        price_per_unit: 8500,
         quality_grade: 'Grade A (Premium)',
-        village: 'Kothri',
-        district: 'Sehore',
-        state: 'Madhya Pradesh',
-        pincode: '466001',
-        harvest_date: '2026-03-10',
+        village: 'Pawas',
+        district: 'Ratnagiri',
+        state: 'Maharashtra',
+        pincode: '415612',
+        harvest_date: '2026-04-10',
         images: [
-          'https://images.unsplash.com/photo-1599940824399-b87987ceb72a?w=800&auto=format&fit=crop&q=70'
+          '/images/alphonso_mangoes.jpg'
         ],
-        description: 'Cleaned, graded, bold-sized yellow soybean with 39% protein and 19% oil content. Moisture content strictly maintained under 9%.',
+        description: 'GI-certified authentic Ratnagiri Alphonso mangoes from Konkan coastal laterite soil. Naturally tree-ripened, rich saffron pulp, irresistible aroma and sweetness.',
         is_organic: true,
         status: 'active'
       },
+      // 5. SPICES
+      {
+        farmer_id: farmer4Id,
+        crop_name: 'Erode Turmeric',
+        category: 'Spices',
+        variety: 'Salem/Erode Turmeric',
+        quantity: 55,
+        min_order_quantity: 5,
+        unit: 'quintal',
+        price_per_unit: 8200,
+        quality_grade: 'Grade A (Premium)',
+        village: 'Modakkurichi',
+        district: 'Erode',
+        state: 'Tamil Nadu',
+        pincode: '638001',
+        harvest_date: '2026-02-28',
+        images: [
+          '/images/erode_turmeric.jpg'
+        ],
+        description: 'GI-tagged authentic Erode finger turmeric rhizomes with exceptionally high curcumin content (3.8%+). Double boiled, sun-dried, deep golden hue.',
+        is_organic: true,
+        status: 'active'
+      },
+      // 6. OILSEEDS (Yellow Mustard Seeds - authentic image)
+      {
+        farmer_id: farmer2Id,
+        crop_name: 'Yellow Mustard Seeds (Sarson)',
+        category: 'Oilseeds',
+        variety: 'Pusa Bold',
+        quantity: 75,
+        min_order_quantity: 5,
+        unit: 'quintal',
+        price_per_unit: 6100,
+        quality_grade: 'Grade A (Premium)',
+        village: 'Doraha',
+        district: 'Ludhiana',
+        state: 'Punjab',
+        pincode: '141421',
+        harvest_date: '2026-03-01',
+        images: [
+          '/images/yellow_mustard_seeds.jpg'
+        ],
+        description: 'Golden-yellow bold mustard seeds (Sarson) with high natural pungency and 41% cold-press oil yield. Double machine cleaned with zero admixture.',
+        is_organic: true,
+        status: 'active'
+      },
+      // 7. OTHER
+      {
+        farmer_id: farmer6Id,
+        crop_name: 'Fresh Farm Jaggery (Gur)',
+        category: 'Other',
+        variety: 'Traditional Cane Jaggery',
+        quantity: 50,
+        min_order_quantity: 5,
+        unit: 'quintal',
+        price_per_unit: 4800,
+        quality_grade: 'Grade A (Premium)',
+        village: 'Shirol',
+        district: 'Kolhapur',
+        state: 'Maharashtra',
+        pincode: '416003',
+        harvest_date: '2026-03-25',
+        images: [
+          '/images/kolhapur_jaggery.jpg'
+        ],
+        description: 'Pure chemical-free golden Kolhapur cane jaggery prepared in traditional open pans using natural clarificants. Rich in iron, minerals, and authentic aroma.',
+        is_organic: true,
+        status: 'active'
+      },
+      // Additional Cereals & Grains
+      {
+        farmer_id: farmer2Id,
+        crop_name: '1121 Pusa Basmati Rice',
+        category: 'Cereals & Grains',
+        variety: 'Extra Long Grain (Aged 1 Year)',
+        quantity: 85,
+        min_order_quantity: 10,
+        unit: 'quintal',
+        price_per_unit: 4800,
+        quality_grade: 'Grade A (Premium)',
+        village: 'Doraha',
+        district: 'Ludhiana',
+        state: 'Punjab',
+        pincode: '141421',
+        harvest_date: '2026-02-20',
+        images: [
+          '/images/basmati_rice.jpg',
+          'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=800&auto=format&fit=crop&q=70'
+        ],
+        description: 'Aged 1121 extra-long aromatic Basmati rice. Average grain length 8.4mm with delicate floral aroma. Ideal for premium export and catering.',
+        is_organic: false,
+        status: 'active'
+      },
+      // Additional Vegetables
       {
         farmer_id: farmer3Id,
         crop_name: 'Fresh Farm Tomatoes (Hybrid)',
@@ -259,31 +433,32 @@ const seedDB = async () => {
         pincode: '422209',
         harvest_date: '2026-04-01',
         images: [
-          'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=800&auto=format&fit=crop&q=70'
+          '/images/farm_tomatoes.jpg'
         ],
         description: 'Glossy red, firm skin hybrid tomatoes picked at breaker stage for safe long-distance transit. High pulp and rich acidity.',
         is_organic: false,
         status: 'active'
       },
+      // Additional Oilseeds
       {
-        farmer_id: farmer2Id,
-        crop_name: 'Yellow Mustard Seeds (Sarson)',
+        farmer_id: farmer1Id,
+        crop_name: 'Yellow Soya Bean (High Protein)',
         category: 'Oilseeds',
-        variety: 'Pusa Bold',
-        quantity: 60,
+        variety: 'JS-9560',
+        quantity: 90,
         min_order_quantity: 5,
         unit: 'quintal',
-        price_per_unit: 5200,
+        price_per_unit: 3950,
         quality_grade: 'Grade A (Premium)',
-        village: 'Doraha',
-        district: 'Ludhiana',
-        state: 'Punjab',
-        pincode: '141421',
-        harvest_date: '2026-03-01',
+        village: 'Kothri',
+        district: 'Sehore',
+        state: 'Madhya Pradesh',
+        pincode: '466001',
+        harvest_date: '2026-03-10',
         images: [
-          'https://images.unsplash.com/photo-1508873696983-2df5293cb32b?w=800&auto=format&fit=crop&q=70'
+          '/images/yellow_soybean.jpg'
         ],
-        description: 'Golden yellow mustard seeds with high pungency and 41% oil yield. Double machine cleaned with zero admixture.',
+        description: 'Cleaned, graded, bold-sized yellow soybean with 39% protein and 19% oil content. Moisture content strictly maintained under 9%.',
         is_organic: true,
         status: 'active'
       }

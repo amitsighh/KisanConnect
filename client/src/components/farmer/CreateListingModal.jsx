@@ -1,16 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, Sprout, Upload, CheckCircle2, ShieldAlert, Sparkles } from 'lucide-react';
 import API from '../../services/api';
 import { generateListing } from '../../services/aiService'; 
+import { getMandiPrice } from '../../services/mandiService';
+import MandiPriceWidget from '../common/MandiPriceWidget';
 import { useAuth } from '../../context/AuthContext';
 
 const PHOTO_PRESETS = [
-  { name: 'Wheat / Grains', url: 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=800&auto=format&fit=crop&q=70' },
-  { name: 'Basmati Rice', url: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=800&auto=format&fit=crop&q=70' },
-  { name: 'Red Onions', url: 'https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb?w=800&auto=format&fit=crop&q=70' },
-  { name: 'Tomatoes', url: 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=800&auto=format&fit=crop&q=70' },
-  { name: 'Soybean', url: 'https://images.unsplash.com/photo-1599940824399-b87987ceb72a?w=800&auto=format&fit=crop&q=70' },
-  { name: 'Mustard Seeds', url: 'https://images.unsplash.com/photo-1508873696983-2df5293cb32b?w=800&auto=format&fit=crop&q=70' }
+  { name: 'Wheat / Grains', url: '/images/sharbati_wheat.jpg' },
+  { name: 'Basmati Rice', url: '/images/basmati_rice.jpg' },
+  { name: 'Red Onions', url: '/images/red_onions.jpg' },
+  { name: 'Tomatoes', url: '/images/farm_tomatoes.jpg' },
+  { name: 'Green Moong', url: '/images/green_moong.jpg' },
+  { name: 'Alphonso Mangoes', url: '/images/alphonso_mangoes.jpg' },
+  { name: 'Erode Turmeric', url: '/images/erode_turmeric.jpg' },
+  { name: 'Yellow Mustard', url: '/images/yellow_mustard_seeds.jpg' },
+  { name: 'Farm Jaggery', url: '/images/kolhapur_jaggery.jpg' },
+  { name: 'Soybean', url: '/images/yellow_soybean.jpg' }
 ];
 
 export const CreateListingModal = ({ isOpen, onClose, onListingCreated }) => {
@@ -39,6 +45,36 @@ export const CreateListingModal = ({ isOpen, onClose, onListingCreated }) => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [aiLoading, setAiLoading] = useState(false);
+  const [mandiData, setMandiData] = useState(null);
+  const [mandiLoading, setMandiLoading] = useState(false);
+
+  // Live Mandi Reference Price lookup effect (debounced)
+  useEffect(() => {
+    if (!isOpen) return;
+    if (!formData.cropName || formData.cropName.trim().length < 2) {
+      setMandiData(null);
+      return;
+    }
+
+    const timer = setTimeout(async () => {
+      setMandiLoading(true);
+      try {
+        const result = await getMandiPrice({
+          commodity: formData.cropName,
+          state: formData.state,
+          district: formData.district,
+          market: formData.village
+        });
+        setMandiData(result);
+      } catch (err) {
+        setMandiData({ available: false, message: 'Market price lookup temporarily unavailable.' });
+      } finally {
+        setMandiLoading(false);
+      }
+    }, 450);
+
+    return () => clearTimeout(timer);
+  }, [formData.cropName, formData.state, formData.district, formData.village, isOpen]);
 
   if (!isOpen) return null;
 
@@ -291,6 +327,16 @@ Keep it clear, trustworthy and suitable for Indian buyers.
               />
             </div>
           </div>
+
+          {/* Mandi Reference Price & Comparison Widget */}
+          {formData.cropName && formData.cropName.trim().length >= 2 && (
+            <MandiPriceWidget
+              mandiData={mandiData}
+              farmerPrice={formData.pricePerUnit}
+              unit={formData.unit}
+              loading={mandiLoading}
+            />
+          )}
 
           {/* Row 4: Farm Location */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">

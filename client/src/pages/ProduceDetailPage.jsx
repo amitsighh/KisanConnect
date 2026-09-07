@@ -17,6 +17,8 @@ import {
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import OfferModal from '../components/marketplace/OfferModal';
+import { getMandiPrice } from '../services/mandiService';
+import MandiPriceWidget from '../components/common/MandiPriceWidget';
 
 export const ProduceDetailPage = () => {
   const { id } = useParams();
@@ -30,6 +32,8 @@ export const ProduceDetailPage = () => {
   const [selectedQty, setSelectedQty] = useState(1);
   const [isOfferModalOpen, setIsOfferModalOpen] = useState(false);
   const [addedToast, setAddedToast] = useState(false);
+  const [mandiData, setMandiData] = useState(null);
+  const [mandiLoading, setMandiLoading] = useState(false);
 
   useEffect(() => {
     const fetchListing = async () => {
@@ -37,8 +41,26 @@ export const ProduceDetailPage = () => {
         setLoading(true);
         const res = await API.get(`/listings/${id}`);
         if (res.data.success) {
-          setListing(res.data.listing);
-          setSelectedQty(res.data.listing.minOrderQuantity || 1);
+          const fetchedListing = res.data.listing;
+          setListing(fetchedListing);
+          setSelectedQty(fetchedListing.minOrderQuantity || 1);
+
+          // Fetch live Mandi benchmark price
+          if (fetchedListing.cropName) {
+            setMandiLoading(true);
+            getMandiPrice({
+              commodity: fetchedListing.cropName,
+              state: fetchedListing.location?.state,
+              district: fetchedListing.location?.district,
+              market: fetchedListing.location?.village || fetchedListing.location?.address
+            }).then((mandiRes) => {
+              setMandiData(mandiRes);
+            }).catch(() => {
+              setMandiData({ available: false });
+            }).finally(() => {
+              setMandiLoading(false);
+            });
+          }
         }
       } catch (err) {
         setError('Failed to load produce details.');
@@ -199,6 +221,15 @@ export const ProduceDetailPage = () => {
                 <strong>Zero Commission:</strong> Sourcing directly saves approx <strong>₹{Math.round(listing.pricePerUnit * 0.18)}/{listing.unit}</strong> vs traditional wholesale terminal mandis.
               </span>
             </div>
+
+            {/* Live Mandi Benchmark & Price Comparison */}
+            <MandiPriceWidget
+              mandiData={mandiData}
+              farmerPrice={listing.pricePerUnit}
+              unit={listing.unit}
+              loading={mandiLoading}
+              compact={true}
+            />
 
             {/* Quantity Selector */}
             <div className="space-y-2 pt-1">
