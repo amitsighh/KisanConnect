@@ -7,6 +7,7 @@ import Navbar from './components/common/Navbar';
 import Footer from './components/common/Footer';
 import ProtectedRoute from './components/common/ProtectedRoute';
 import CreateListingModal from './components/farmer/CreateListingModal';
+import KisanSahayak from './components/common/KisanSahayak';
 
 import HomePage from './pages/HomePage';
 import MarketplacePage from './pages/MarketplacePage';
@@ -84,6 +85,9 @@ function AppContent() {
           window.location.reload();
         }}
       />
+
+      {/* Multilingual Voice Website Assistant (Kisan Sahayak) */}
+      <KisanSahayak />
 
       {/* Footer */}
       <Footer />

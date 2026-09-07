@@ -20,6 +20,7 @@ app.use('/api/offers', require('./routes/offerRoutes'));
 app.use('/api/orders', require('./routes/orderRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
 app.use('/api/ai', require('./routes/aiRoutes'));
+app.use('/api/mandi', require('./routes/mandiRoutes'));
 
 // Health & Info Endpoint
 app.get('/api/health', (req, res) => {

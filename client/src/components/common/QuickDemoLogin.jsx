@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { Sparkles, Sprout, ShoppingCart, ShieldAlert, Database } from 'lucide-react';
+import { Sparkles, Sprout, ShoppingCart, ShieldAlert } from 'lucide-react';
 
 export const QuickDemoLogin = () => {
   const { user, quickDemoLogin, logout } = useAuth();
@@ -9,10 +9,7 @@ export const QuickDemoLogin = () => {
     <div className="bg-gradient-to-r from-slate-900 via-emerald-950 to-slate-900 text-white text-xs px-4 py-2 border-b border-emerald-800/40">
       <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2">
-          <span className="bg-emerald-500 text-slate-950 font-bold px-2 py-0.5 rounded text-[10px] uppercase tracking-wider flex items-center gap-1">
-            <Database size={11} /> Supabase PostgreSQL
-          </span>
-          <span className="text-slate-300 hidden sm:inline">
+          <span className="text-slate-300 font-medium">
             Direct Farmer-to-Buyer Marketplace (SIH26033)
           </span>
         </div>
