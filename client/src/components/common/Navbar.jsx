@@ -2,26 +2,24 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
+import { useLanguage } from '../../context/LanguageContext';
+import LanguageSelector from './LanguageSelector';
+import NotificationBell from './NotificationBell';
 import { 
-  Sprout, 
   ShoppingCart, 
   Menu, 
   X, 
   PlusCircle, 
   LayoutDashboard, 
-  Handshake, 
-  Package, 
   ShieldCheck, 
-  LogOut,
-  User,
-  Search
+  LogOut
 } from 'lucide-react';
 
 export const Navbar = ({ onOpenCreateModal }) => {
   const { user, isFarmer, isBuyer, isAdmin, logout } = useAuth();
   const { totalItemsCount } = useCart();
+  const { t } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const navigate = useNavigate();
   const location = useLocation();
 
   const isActive = (path) => location.pathname === path;
@@ -31,55 +29,55 @@ export const Navbar = ({ onOpenCreateModal }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           
-          {/* Logo */}
-          <div className="flex items-center gap-6">
-            <Link to="/" className="flex items-center gap-2 group">
+          {/* Logo & Branding */}
+          <div className="flex items-center gap-5">
+            <Link to="/" className="flex items-center gap-2 group" title="Agro Connective Intelligence and Resource Exchange">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-700 to-emerald-500 flex items-center justify-center text-white shadow-md shadow-emerald-500/20 group-hover:scale-105 transition">
                 <span className="text-xl">🌾</span>
               </div>
               <div>
-                <span className="text-xl font-extrabold text-slate-900 tracking-tight flex items-center gap-1">
-                  Kisan<span className="text-emerald-600">Connect</span>
+                <span className="text-xl font-black text-slate-900 tracking-tight flex items-center gap-1">
+                  ACIRE<span className="text-emerald-600">.AGRO</span>
                 </span>
-                <span className="block text-[10px] text-slate-500 -mt-1 font-medium tracking-wide">
-                  DIRECT FARMER-TO-BUYER
+                <span className="block text-[9px] text-slate-500 -mt-1 font-bold tracking-wider uppercase">
+                  Agro Connective Intelligence
                 </span>
               </div>
             </Link>
 
             {/* Desktop Navigation Links */}
-            <nav className="hidden md:flex items-center gap-1 text-sm font-medium text-slate-700">
+            <nav className="hidden md:flex items-center gap-1 text-xs font-bold text-slate-700">
               <Link 
                 to="/marketplace" 
-                className={`px-3 py-2 rounded-lg transition ${
+                className={`px-3 py-2 rounded-xl transition ${
                   isActive('/marketplace') 
-                    ? 'bg-emerald-50 text-emerald-700 font-semibold' 
+                    ? 'bg-emerald-50 text-emerald-700 font-extrabold' 
                     : 'hover:bg-slate-100 hover:text-slate-900'
                 }`}
               >
-                Marketplace
+                {t('navMarketplace', 'Marketplace')}
               </Link>
 
               {isFarmer && (
                 <>
                   <Link 
                     to="/farmer/dashboard" 
-                    className={`px-3 py-2 rounded-lg transition flex items-center gap-1.5 ${
+                    className={`px-3 py-2 rounded-xl transition flex items-center gap-1.5 ${
                       isActive('/farmer/dashboard') 
-                        ? 'bg-emerald-50 text-emerald-700 font-semibold' 
+                        ? 'bg-emerald-50 text-emerald-700 font-extrabold' 
                         : 'hover:bg-slate-100 hover:text-slate-900'
                     }`}
                   >
-                    <LayoutDashboard size={16} />
-                    <span>Farmer Hub</span>
+                    <LayoutDashboard size={15} />
+                    <span>{t('navFarmerHub', 'Farmer Hub')}</span>
                   </Link>
 
                   <button
                     onClick={onOpenCreateModal}
-                    className="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm font-medium transition shadow-sm flex items-center gap-1.5 ml-1"
+                    className="px-3 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold transition shadow-xs flex items-center gap-1.5 ml-1"
                   >
-                    <PlusCircle size={16} />
-                    <span>List Produce</span>
+                    <PlusCircle size={15} />
+                    <span>{t('listProduce', '+ List Produce')}</span>
                   </button>
                 </>
               )}
@@ -87,28 +85,28 @@ export const Navbar = ({ onOpenCreateModal }) => {
               {isBuyer && (
                 <Link 
                   to="/buyer/dashboard" 
-                  className={`px-3 py-2 rounded-lg transition flex items-center gap-1.5 ${
+                  className={`px-3 py-2 rounded-xl transition flex items-center gap-1.5 ${
                     isActive('/buyer/dashboard') 
-                      ? 'bg-emerald-50 text-emerald-700 font-semibold' 
+                      ? 'bg-emerald-50 text-emerald-700 font-extrabold' 
                       : 'hover:bg-slate-100 hover:text-slate-900'
                   }`}
                 >
-                  <LayoutDashboard size={16} />
-                  <span>Buyer Hub</span>
+                  <LayoutDashboard size={15} />
+                  <span>{t('navBuyerHub', 'Buyer Hub')}</span>
                 </Link>
               )}
 
               {isAdmin && (
                 <Link 
                   to="/admin" 
-                  className={`px-3 py-2 rounded-lg transition flex items-center gap-1.5 ${
+                  className={`px-3 py-2 rounded-xl transition flex items-center gap-1.5 ${
                     isActive('/admin') 
-                      ? 'bg-purple-50 text-purple-700 font-semibold' 
+                      ? 'bg-purple-50 text-purple-700 font-extrabold' 
                       : 'hover:bg-slate-100 hover:text-slate-900'
                   }`}
                 >
-                  <ShieldCheck size={16} />
-                  <span>Ministry Admin</span>
+                  <ShieldCheck size={15} />
+                  <span>{t('navAdmin', 'Ministry Admin')}</span>
                 </Link>
               )}
             </nav>
@@ -116,6 +114,13 @@ export const Navbar = ({ onOpenCreateModal }) => {
 
           {/* Right Action Items */}
           <div className="hidden md:flex items-center gap-3">
+            
+            {/* Language Selector Component */}
+            <LanguageSelector />
+
+            {/* Notifications Bell Component */}
+            <NotificationBell />
+
             {/* Cart Button */}
             <Link
               to="/checkout"
@@ -133,18 +138,18 @@ export const Navbar = ({ onOpenCreateModal }) => {
             {user ? (
               <div className="flex items-center gap-3 border-l border-slate-200 pl-3">
                 <div className="flex flex-col text-right">
-                  <span className="text-sm font-semibold text-slate-800 leading-tight">
+                  <span className="text-xs font-extrabold text-slate-900 leading-tight">
                     {user.name.split(' ')[0]}
                   </span>
-                  <span className="text-[11px] font-medium uppercase tracking-wider text-emerald-600">
-                    {user.role === 'farmer' ? '👨‍🌾 Farmer' : user.role === 'buyer' ? '🛒 Buyer' : '🏛️ Admin'}
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-600">
+                    {user.role === 'farmer' ? `👨‍🌾 ${t('farmer', 'Farmer')}` : user.role === 'buyer' ? `🛒 ${t('buyer', 'Buyer')}` : `🏛️ ${t('admin', 'Admin')}`}
                   </span>
                 </div>
 
                 <button
                   onClick={logout}
-                  className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition"
-                  title="Log out"
+                  className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition"
+                  title={t('navLogout', 'Log out')}
                 >
                   <LogOut size={18} />
                 </button>
@@ -153,22 +158,24 @@ export const Navbar = ({ onOpenCreateModal }) => {
               <div className="flex items-center gap-2">
                 <Link
                   to="/login"
-                  className="px-3.5 py-1.5 text-sm font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition"
+                  className="px-3.5 py-1.5 text-xs font-bold text-slate-700 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition"
                 >
-                  Sign In
+                  {t('navSignIn', 'Sign In')}
                 </Link>
                 <Link
                   to="/register"
-                  className="px-4 py-1.5 text-sm font-semibold bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg shadow-sm transition"
+                  className="px-4 py-1.5 text-xs font-extrabold bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl shadow-xs transition"
                 >
-                  Register
+                  {t('navRegister', 'Register')}
                 </Link>
               </div>
             )}
           </div>
 
-          {/* Mobile menu button */}
+          {/* Mobile Menu Trigger & Controls */}
           <div className="flex items-center gap-2 md:hidden">
+            <LanguageSelector />
+
             <Link
               to="/checkout"
               className="relative p-2 rounded-lg text-slate-600 hover:bg-slate-100"
@@ -180,6 +187,7 @@ export const Navbar = ({ onOpenCreateModal }) => {
                 </span>
               )}
             </Link>
+
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2 text-slate-600 hover:bg-slate-100 rounded-lg"
@@ -193,13 +201,13 @@ export const Navbar = ({ onOpenCreateModal }) => {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 space-y-3 shadow-lg">
+        <div className="md:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 space-y-3 shadow-lg text-xs font-bold">
           <Link
             to="/marketplace"
             onClick={() => setMobileMenuOpen(false)}
-            className="block px-3 py-2 rounded-lg text-base font-medium text-slate-800 hover:bg-slate-100"
+            className="block px-3 py-2 rounded-xl text-slate-800 hover:bg-slate-100"
           >
-            Marketplace
+            {t('navMarketplace', 'Marketplace')}
           </Link>
 
           {isFarmer && (
@@ -207,18 +215,18 @@ export const Navbar = ({ onOpenCreateModal }) => {
               <Link
                 to="/farmer/dashboard"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block px-3 py-2 rounded-lg text-base font-medium text-emerald-700 bg-emerald-50"
+                className="block px-3 py-2 rounded-xl text-emerald-700 bg-emerald-50"
               >
-                Farmer Dashboard
+                {t('navFarmerHub', 'Farmer Hub')}
               </Link>
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);
                   onOpenCreateModal();
                 }}
-                className="w-full text-left px-3 py-2 rounded-lg text-base font-medium text-white bg-emerald-600"
+                className="w-full text-left px-3 py-2 rounded-xl text-white bg-emerald-600 font-bold"
               >
-                + List Produce
+                {t('listProduce', '+ List Produce')}
               </button>
             </>
           )}
@@ -227,9 +235,9 @@ export const Navbar = ({ onOpenCreateModal }) => {
             <Link
               to="/buyer/dashboard"
               onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 rounded-lg text-base font-medium text-blue-700 bg-blue-50"
+              className="block px-3 py-2 rounded-xl text-blue-700 bg-blue-50"
             >
-              Buyer Dashboard & Orders
+              {t('navBuyerHub', 'Buyer Hub')}
             </Link>
           )}
 
@@ -237,9 +245,9 @@ export const Navbar = ({ onOpenCreateModal }) => {
             <Link
               to="/admin"
               onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 rounded-lg text-base font-medium text-purple-700 bg-purple-50"
+              className="block px-3 py-2 rounded-xl text-purple-700 bg-purple-50"
             >
-              Ministry Admin Dashboard
+              {t('navAdmin', 'Ministry Admin')}
             </Link>
           )}
 
@@ -247,17 +255,17 @@ export const Navbar = ({ onOpenCreateModal }) => {
             {user ? (
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-semibold text-slate-800">{user.name}</p>
-                  <p className="text-xs text-slate-500 capitalize">{user.role}</p>
+                  <p className="font-extrabold text-slate-900">{user.name}</p>
+                  <p className="text-[10px] text-slate-500 capitalize">{user.role}</p>
                 </div>
                 <button
                   onClick={() => {
                     logout();
                     setMobileMenuOpen(false);
                   }}
-                  className="px-3 py-1.5 text-xs text-red-600 bg-red-50 rounded-lg font-medium"
+                  className="px-3 py-1.5 text-xs text-red-600 bg-red-50 rounded-xl font-bold"
                 >
-                  Log out
+                  {t('navLogout', 'Log out')}
                 </button>
               </div>
             ) : (
@@ -265,16 +273,16 @@ export const Navbar = ({ onOpenCreateModal }) => {
                 <Link
                   to="/login"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-center py-2 border border-slate-300 rounded-lg text-sm font-medium text-slate-700"
+                  className="text-center py-2 border border-slate-300 rounded-xl text-xs font-bold text-slate-700"
                 >
-                  Sign In
+                  {t('navSignIn', 'Sign In')}
                 </Link>
                 <Link
                   to="/register"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-center py-2 bg-emerald-600 text-white rounded-lg text-sm font-medium"
+                  className="text-center py-2 bg-emerald-600 text-white rounded-xl text-xs font-extrabold"
                 >
-                  Register
+                  {t('navRegister', 'Register')}
                 </Link>
               </div>
             )}

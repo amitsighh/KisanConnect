@@ -25,7 +25,11 @@ if (supabaseUrl && supabaseKey && supabaseUrl.startsWith('http') && !supabaseUrl
     offer_messages: [],
     orders: [],
     order_timeline: [],
-    auth_users: []
+    auth_users: [],
+    demand_locations: [],
+    smart_pools: [],
+    pool_members: [],
+    notifications: []
   };
 
   class SupabaseQueryBuilder {
@@ -132,13 +136,25 @@ if (supabaseUrl && supabaseKey && supabaseUrl.startsWith('http') && !supabaseUrl
         }
         cloned.buyer = db.profiles.find((p) => p.id === row.buyer_id) || null;
         cloned.farmer = db.profiles.find((p) => p.id === row.farmer_id) || null;
-        cloned.messages = db.offer_messages.filter((m) => m.offer_id === row.id);
+        cloned.messages = (db.offer_messages || []).filter((m) => m.offer_id === row.id);
       } else if (this.table === 'orders') {
         const listing = db.listings.find((l) => l.id === row.listing_id);
         cloned.listing = listing ? { ...listing } : null;
         cloned.buyer = db.profiles.find((p) => p.id === row.buyer_id) || null;
         cloned.farmer = db.profiles.find((p) => p.id === row.farmer_id) || null;
-        cloned.timeline = db.order_timeline.filter((t) => t.order_id === row.id);
+        cloned.timeline = (db.order_timeline || []).filter((t) => t.order_id === row.id);
+      } else if (this.table === 'smart_pools') {
+        cloned.buyer = db.profiles.find((p) => p.id === row.buyer_id) || null;
+        const members = (db.pool_members || []).filter((m) => m.pool_id === row.id && m.status !== 'WITHDRAWN');
+        cloned.members = members.map((m) => ({
+          ...m,
+          farmer: db.profiles.find((p) => p.id === m.farmer_id) || null
+        }));
+      } else if (this.table === 'pool_members') {
+        cloned.farmer = db.profiles.find((p) => p.id === row.farmer_id) || null;
+        cloned.pool = db.smart_pools.find((sp) => sp.id === row.pool_id) || null;
+      } else if (this.table === 'notifications') {
+        cloned.user = db.profiles.find((p) => p.id === row.user_id) || null;
       }
       return cloned;
     }

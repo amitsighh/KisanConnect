@@ -13,13 +13,18 @@ import {
 } from 'lucide-react';
 import API from '../services/api';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import FarmerOffersView from '../components/farmer/FarmerOffersView';
 import FarmerOrdersView from '../components/farmer/FarmerOrdersView';
 import CreateListingModal from '../components/farmer/CreateListingModal';
+import DemandMapView from '../components/farmer/DemandMapView';
+import SmartPoolsView from '../components/farmer/SmartPoolsView';
+import { MapPin, Layers, Sparkles } from 'lucide-react';
 
 export const FarmerDashboardPage = () => {
   const { user } = useAuth();
-  const [activeTab, setActiveTab] = useState('listings'); // 'listings' | 'offers' | 'orders'
+  const { t } = useLanguage();
+  const [activeTab, setActiveTab] = useState('demand_map'); // 'demand_map' | 'smart_pools' | 'listings' | 'offers' | 'orders'
   const [myListings, setMyListings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -83,7 +88,7 @@ export const FarmerDashboardPage = () => {
               <h1 className="text-xl sm:text-2xl font-extrabold">{user?.name}</h1>
               {user?.isVerified && (
                 <span className="px-2 py-0.5 bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 text-[10px] font-bold rounded-full flex items-center gap-1">
-                  <ShieldCheck size={12} /> Verified Farmer
+                  <ShieldCheck size={12} /> {t('verifiedFarmer', 'Verified Farmer')}
                 </span>
               )}
             </div>
@@ -98,7 +103,7 @@ export const FarmerDashboardPage = () => {
           className="px-5 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl text-xs transition shadow-md flex items-center gap-1.5 shrink-0"
         >
           <PlusCircle size={16} />
-          <span>List New Produce</span>
+          <span>{t('listProduce', '+ List Produce')}</span>
         </button>
       </div>
 
@@ -109,7 +114,7 @@ export const FarmerDashboardPage = () => {
             <Sprout size={24} />
           </div>
           <div>
-            <span className="text-xs text-slate-500 font-medium block">Active Crop Lots</span>
+            <span className="text-xs text-slate-500 font-medium block">{t('activeCropLots', 'Active Crop Lots')}</span>
             <span className="text-2xl font-extrabold text-slate-900">{stats.activeListingsCount}</span>
           </div>
         </div>
@@ -119,8 +124,8 @@ export const FarmerDashboardPage = () => {
             <Package size={24} />
           </div>
           <div>
-            <span className="text-xs text-slate-500 font-medium block">Total Available Stock</span>
-            <span className="text-2xl font-extrabold text-slate-900">{stats.totalQuantity} <span className="text-sm font-semibold text-slate-500">Quintals</span></span>
+            <span className="text-xs text-slate-500 font-medium block">{t('totalStock', 'Total Available Stock')}</span>
+            <span className="text-2xl font-extrabold text-slate-900">{stats.totalQuantity} <span className="text-sm font-semibold text-slate-500">{t('quintals', 'Quintals')}</span></span>
           </div>
         </div>
 
@@ -129,14 +134,38 @@ export const FarmerDashboardPage = () => {
             <TrendingUp size={24} />
           </div>
           <div>
-            <span className="text-xs text-slate-500 font-medium block">Active Inventory Value</span>
+            <span className="text-xs text-slate-500 font-medium block">{t('inventoryValue', 'Active Inventory Value')}</span>
             <span className="text-2xl font-extrabold text-emerald-700">₹{stats.estimatedValue.toLocaleString('en-IN')}</span>
           </div>
         </div>
       </div>
 
       {/* Tabs Navigation */}
-      <div className="border-b border-slate-200 flex gap-2">
+      <div className="border-b border-slate-200 flex flex-wrap gap-2 overflow-x-auto">
+        <button
+          onClick={() => setActiveTab('demand_map')}
+          className={`pb-3 px-4 font-bold text-xs sm:text-sm transition relative flex items-center gap-1.5 ${
+            activeTab === 'demand_map'
+              ? 'text-emerald-700 border-b-2 border-emerald-600'
+              : 'text-slate-500 hover:text-slate-800'
+          }`}
+        >
+          <MapPin size={16} />
+          <span>{t('tabDemandMap', 'Demand Map & Smart Selling')}</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('smart_pools')}
+          className={`pb-3 px-4 font-bold text-xs sm:text-sm transition relative flex items-center gap-1.5 ${
+            activeTab === 'smart_pools'
+              ? 'text-emerald-700 border-b-2 border-emerald-600'
+              : 'text-slate-500 hover:text-slate-800'
+          }`}
+        >
+          <Layers size={16} />
+          <span>{t('tabSmartPools', 'Smart Pools (AI Grouping)')}</span>
+        </button>
+
         <button
           onClick={() => setActiveTab('listings')}
           className={`pb-3 px-4 font-bold text-xs sm:text-sm transition relative ${
@@ -145,7 +174,7 @@ export const FarmerDashboardPage = () => {
               : 'text-slate-500 hover:text-slate-800'
           }`}
         >
-          My Listed Produce ({myListings.length})
+          {t('tabMyProduce', 'My Listed Produce')} ({myListings.length})
         </button>
 
         <button
@@ -157,7 +186,7 @@ export const FarmerDashboardPage = () => {
           }`}
         >
           <Handshake size={16} />
-          <span>Price Negotiations Desk</span>
+          <span>{t('tabNegotiations', 'Price Negotiations Desk')}</span>
         </button>
 
         <button
@@ -169,9 +198,15 @@ export const FarmerDashboardPage = () => {
           }`}
         >
           <Package size={16} />
-          <span>Received Orders</span>
+          <span>{t('tabReceivedOrders')}</span>
         </button>
       </div>
+
+      {/* Feature 1 Tab: Demand Map */}
+      {activeTab === 'demand_map' && <DemandMapView />}
+
+      {/* Feature 2 Tab: Smart Pools */}
+      {activeTab === 'smart_pools' && <SmartPoolsView />}
 
       {/* Tab 1: My Produce Listings */}
       {activeTab === 'listings' && (

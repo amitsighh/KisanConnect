@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { LanguageProvider } from './context/LanguageContext';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import QuickDemoLogin from './components/common/QuickDemoLogin';
@@ -81,7 +82,6 @@ function AppContent() {
         isOpen={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}
         onListingCreated={() => {
-          // If on marketplace or farmer page, page will reload/update
           window.location.reload();
         }}
       />
@@ -97,12 +97,14 @@ function AppContent() {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <CartProvider>
-        <Router>
-          <AppContent />
-        </Router>
-      </CartProvider>
-    </AuthProvider>
+    <LanguageProvider>
+      <AuthProvider>
+        <CartProvider>
+          <Router>
+            <AppContent />
+          </Router>
+        </CartProvider>
+      </AuthProvider>
+    </LanguageProvider>
   );
 }

@@ -32,7 +32,7 @@ const SUPPORTED_LANGUAGES = [
 ];
 
 const QUICK_HELP_PROMPTS = [
-  { icon: '🌱', label: 'Crop Listing', prompt: 'KisanConnect par apni fasal kaise list karein?' },
+  { icon: '🌱', label: 'Crop Listing', prompt: 'ACIRE par apni fasal kaise list karein?' },
   { icon: '💰', label: 'Mandi Price', prompt: 'Live Mandi reference price kya hai aur kaise check karein?' },
   { icon: '🤝', label: 'Mol-Bhav / Bids', prompt: 'Buyer ke sath bhao negotiate ya counter offer kaise karein?' },
   { icon: '🛒', label: 'Cart & Buy', prompt: 'Marketplace se direct produce kaise kharidein?' },
@@ -47,7 +47,7 @@ export const KisanSahayak = () => {
   const [messages, setMessages] = useState([
     {
       sender: 'assistant',
-      text: 'Namaste! Main aapka Kisan Sahayak hoon. KisanConnect website use karne me main aapki madad kar sakta hoon. Aap mic dabakar bol sakte hain ya neeche type kar sakte hain!',
+      text: 'Namaste! Main aapka Kisan Sahayak hoon. ACIRE platform use karne me main aapki madad kar sakta hoon. Aap mic dabakar bol sakte hain ya neeche type kar sakte hain!',
       timestamp: new Date()
     }
   ]);
@@ -230,7 +230,7 @@ export const KisanSahayak = () => {
     if (p.startsWith('/login')) return 'Sign In';
     if (p.startsWith('/register')) return 'Register';
     if (p.startsWith('/admin')) return 'Ministry Admin';
-    return 'KisanConnect';
+    return 'ACIRE';
   };
 
   return (
@@ -434,7 +434,7 @@ export const KisanSahayak = () => {
 
             <div className="text-[10px] text-slate-400 text-center flex items-center justify-center gap-1">
               <Sparkles size={10} className="text-emerald-600" />
-              <span>KisanConnect AI • Multilingual Chat Guide</span>
+              <span>ACIRE AI • Multilingual Chat Guide</span>
             </div>
 
           </div>

@@ -21,6 +21,9 @@ app.use('/api/orders', require('./routes/orderRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
 app.use('/api/ai', require('./routes/aiRoutes'));
 app.use('/api/mandi', require('./routes/mandiRoutes'));
+app.use('/api/demand', require('./routes/demandRoutes'));
+app.use('/api/pools', require('./routes/poolRoutes'));
+app.use('/api/notifications', require('./routes/notificationRoutes'));
 
 // Health & Info Endpoint
 app.get('/api/health', (req, res) => {

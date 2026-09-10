@@ -16,9 +16,11 @@ import API from '../services/api';
 import ProduceCard from '../components/marketplace/ProduceCard';
 import OfferModal from '../components/marketplace/OfferModal';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 
 export const HomePage = ({ onOpenCreateModal }) => {
   const { isFarmer, isBuyer, isAuthenticated } = useAuth();
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   const [featuredListings, setFeaturedListings] = useState([]);
@@ -61,7 +63,7 @@ export const HomePage = ({ onOpenCreateModal }) => {
 
         <div className="relative max-w-3xl space-y-6">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs font-semibold">
-            <Sparkles size={14} /> SIH26033: Direct Farmer-to-Buyer Marketplace
+            <Sparkles size={14} /> Agro Connective Intelligence & Resource Exchange (ACIRE)
           </div>
 
           <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
@@ -73,7 +75,7 @@ export const HomePage = ({ onOpenCreateModal }) => {
 
           <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
             India's agricultural value chain forces farmers through 3–5 layers of commission agents, leaving them with only 30–40% of the value. 
-            <strong className="text-white"> KisanConnect </strong> directly links verified farmers with bulk buyers, retail chains, and FPOs with transparent pricing and in-app negotiation.
+            <strong className="text-white"> ACIRE </strong> directly links verified farmers with bulk buyers, retail chains, and FPOs with transparent pricing and in-app negotiation.
           </p>
 
           {/* CTA Buttons */}
@@ -83,7 +85,7 @@ export const HomePage = ({ onOpenCreateModal }) => {
               className="px-6 py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl text-sm transition shadow-lg shadow-emerald-500/25 flex items-center gap-2"
             >
               <ShoppingCart size={18} />
-              <span>Browse Farm Produce</span>
+              <span>{t('navMarketplace')}</span>
             </Link>
 
             <button
@@ -97,7 +99,7 @@ export const HomePage = ({ onOpenCreateModal }) => {
               className="px-6 py-3 bg-slate-800/90 hover:bg-slate-700 text-white font-semibold rounded-xl text-sm border border-slate-700 transition flex items-center gap-2"
             >
               <Sprout size={18} className="text-emerald-400" />
-              <span>List Your Crop (For Farmers)</span>
+              <span>{t('listProduce')}</span>
             </button>
           </div>
 
@@ -191,7 +193,7 @@ export const HomePage = ({ onOpenCreateModal }) => {
 
           <div className="bg-emerald-50 p-5 rounded-2xl border border-emerald-200 ring-2 ring-emerald-400">
             <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 block mb-1">
-              KisanConnect Direct
+              ACIRE Direct
             </span>
             <span className="text-2xl font-extrabold text-emerald-800">
               ₹{kisanConnectFarmerNet.toLocaleString('en-IN')}
@@ -250,7 +252,7 @@ export const HomePage = ({ onOpenCreateModal }) => {
         )}
       </section>
 
-      {/* How KisanConnect Solves SIH26033 */}
+      {/* How ACIRE Solves Direct Agri Trade */}
       <section className="bg-slate-900 text-white rounded-3xl p-8 sm:p-12 border border-slate-800 space-y-8">
         <div className="text-center max-w-2xl mx-auto space-y-2">
           <span className="text-xs font-bold uppercase tracking-widest text-emerald-400">
