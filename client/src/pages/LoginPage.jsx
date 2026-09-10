@@ -89,8 +89,8 @@ export const LoginPage = () => {
         {/* Main Login Card */}
         <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-xs space-y-6">
           <div className="text-center space-y-1">
-            <h1 className="text-2xl font-extrabold text-slate-900">Sign in to ACIRE</h1>
-            <p className="text-xs text-slate-500">Agro Connective Intelligence & Resource Exchange Platform</p>
+            <h1 className="text-2xl font-extrabold text-slate-900">Sign in to KisanConnect</h1>
+            <p className="text-xs text-slate-500">Direct Farmer-to-Buyer Marketplace Platform</p>
           </div>
 
         {error && (

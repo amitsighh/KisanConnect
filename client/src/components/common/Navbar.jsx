@@ -31,16 +31,16 @@ export const Navbar = ({ onOpenCreateModal }) => {
           
           {/* Logo & Branding */}
           <div className="flex items-center gap-5">
-            <Link to="/" className="flex items-center gap-2 group" title="Agro Connective Intelligence and Resource Exchange">
+            <Link to="/" className="flex items-center gap-2 group" title="KisanConnect - Direct Farmer Marketplace">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-700 to-emerald-500 flex items-center justify-center text-white shadow-md shadow-emerald-500/20 group-hover:scale-105 transition">
                 <span className="text-xl">🌾</span>
               </div>
               <div>
                 <span className="text-xl font-black text-slate-900 tracking-tight flex items-center gap-1">
-                  ACIRE<span className="text-emerald-600">.AGRO</span>
+                  KISAN<span className="text-emerald-600">CONNECT</span>
                 </span>
                 <span className="block text-[9px] text-slate-500 -mt-1 font-bold tracking-wider uppercase">
-                  Agro Connective Intelligence
+                  Direct Farmer Marketplace
                 </span>
               </div>
             </Link>

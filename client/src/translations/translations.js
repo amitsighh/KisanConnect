@@ -13,7 +13,7 @@ export const translations = {
   en: {
     // Branding
     appName: 'Agro Connective Intelligence and Resource Exchange',
-    appShortName: 'ACIRE',
+    appShortName: 'KisanConnect',
     appTagline: 'Connective Agricultural Intelligence & Resource Exchange',
 
     // Navigation & Common
@@ -108,7 +108,7 @@ export const translations = {
   hi: {
     // Branding
     appName: 'एग्रो कनेक्टिव इंटेलिजेंस एंड रिसोर्स एक्सचेंज',
-    appShortName: 'ACIRE',
+    appShortName: 'KisanConnect',
     appTagline: 'कनेक्टिव कृषि बुद्धिमत्ता और संसाधन विनिमय',
 
     // Navigation & Common
@@ -203,7 +203,7 @@ export const translations = {
   bn: {
     // Bengali
     appName: 'এগ্রো কানেক্টিভ ইন্টেলিজেন্স এন্ড রিসোর্স এক্সচেঞ্জ',
-    appShortName: 'ACIRE',
+    appShortName: 'KisanConnect',
     appTagline: 'সংযুক্ত কৃষি বুদ্ধিমত্তা ও সম্পদ বিনিময়',
     navMarketplace: 'বাজার',
     navFarmerHub: 'কৃষক হাব',
@@ -251,7 +251,7 @@ export const translations = {
   mr: {
     // Marathi
     appName: 'ॲग्रो कनेक्टिव्ह इंटेलिजन्स अँड रिसोर्स एक्सचेंज',
-    appShortName: 'ACIRE',
+    appShortName: 'KisanConnect',
     appTagline: 'कनेक्टिव्ह कृषी बुद्धिमत्ता आणि संसाधन विनिमय',
     navMarketplace: 'बाजारपेठ',
     navFarmerHub: 'शेतकरी हब',
@@ -299,7 +299,7 @@ export const translations = {
   te: {
     // Telugu
     appName: 'అగ్రో కనెక్టివ్ ఇంటెలిజెన్స్ అండ్ రిసోర్స్ ఎక్స్ఛేంజ్',
-    appShortName: 'ACIRE',
+    appShortName: 'KisanConnect',
     appTagline: 'వ్యవసాయ మేధస్సు మరియు వనరుల మార్పిడి',
     navMarketplace: 'రైతు బజార్',
     navFarmerHub: 'రైతు వేదిక',
@@ -347,7 +347,7 @@ export const translations = {
   ta: {
     // Tamil
     appName: 'அக்ரோ கனெக்டிவ் இன்டலிஜென்ஸ் அண்ட் ரிசோர்ஸ் எக்ஸ்சேஞ்ச்',
-    appShortName: 'ACIRE',
+    appShortName: 'KisanConnect',
     appTagline: 'இணைக்கப்பட்ட விவசாய நுண்ணறிவு மற்றும் வள பரிமாற்றம்',
     navMarketplace: 'சந்தை',
     navFarmerHub: 'விவசாயி மையம்',
@@ -395,7 +395,7 @@ export const translations = {
   gu: {
     // Gujarati
     appName: 'એગ્રો કનેક્ટિવ ઇન્ટેલિજન્સ એન્ડ રિસોર્સ એક્સચેન્જ',
-    appShortName: 'ACIRE',
+    appShortName: 'KisanConnect',
     appTagline: 'કનેક્ટિવ કૃષિ બુદ્ધિમત્તા અને સંસાધન વિનિમય',
     navMarketplace: 'બજાર',
     navFarmerHub: 'ખેડૂત હબ',
@@ -443,7 +443,7 @@ export const translations = {
   pa: {
     // Punjabi
     appName: 'ਐਗਰੋ ਕਨੈਕਟਿਵ ਇੰਟੈਲੀਜੈਂਸ ਐਂਡ ਰਿਸੋਰਸ ਐਕਸਚੇਂਜ',
-    appShortName: 'ACIRE',
+    appShortName: 'KisanConnect',
     appTagline: 'ਕਨੈਕਟਿਵ ਖੇਤੀਬਾੜੀ ਬੁੱਧੀਮਤਾ ਅਤੇ ਸਰੋਤ ਵਟਾਂਦਰਾ',
     navMarketplace: 'ਮੰਡੀ ਬਜ਼ਾਰ',
     navFarmerHub: 'ਕਿਸਾਨ ਹੱਬ',

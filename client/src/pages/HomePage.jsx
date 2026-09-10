@@ -63,7 +63,7 @@ export const HomePage = ({ onOpenCreateModal }) => {
 
         <div className="relative max-w-3xl space-y-6">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs font-semibold">
-            <Sparkles size={14} /> Agro Connective Intelligence & Resource Exchange (ACIRE)
+            <Sparkles size={14} /> KisanConnect • Direct Farmer-to-Buyer Marketplace
           </div>
 
           <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
@@ -75,7 +75,7 @@ export const HomePage = ({ onOpenCreateModal }) => {
 
           <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
             India's agricultural value chain forces farmers through 3–5 layers of commission agents, leaving them with only 30–40% of the value. 
-            <strong className="text-white"> ACIRE </strong> directly links verified farmers with bulk buyers, retail chains, and FPOs with transparent pricing and in-app negotiation.
+            <strong className="text-white"> KisanConnect </strong> directly links verified farmers with bulk buyers, retail chains, and FPOs with transparent pricing and in-app negotiation.
           </p>
 
           {/* CTA Buttons */}
@@ -193,7 +193,7 @@ export const HomePage = ({ onOpenCreateModal }) => {
 
           <div className="bg-emerald-50 p-5 rounded-2xl border border-emerald-200 ring-2 ring-emerald-400">
             <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 block mb-1">
-              ACIRE Direct
+              KisanConnect Direct
             </span>
             <span className="text-2xl font-extrabold text-emerald-800">
               ₹{kisanConnectFarmerNet.toLocaleString('en-IN')}
@@ -252,7 +252,7 @@ export const HomePage = ({ onOpenCreateModal }) => {
         )}
       </section>
 
-      {/* How ACIRE Solves Direct Agri Trade */}
+      {/* How KisanConnect Solves Direct Agri Trade */}
       <section className="bg-slate-900 text-white rounded-3xl p-8 sm:p-12 border border-slate-800 space-y-8">
         <div className="text-center max-w-2xl mx-auto space-y-2">
           <span className="text-xs font-bold uppercase tracking-widest text-emerald-400">
