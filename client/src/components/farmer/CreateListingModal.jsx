@@ -1,5 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { X, Sprout, Upload, CheckCircle2, ShieldAlert, Sparkles } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { 
+  X, 
+  Sprout, 
+  Upload, 
+  CheckCircle2, 
+  ShieldAlert, 
+  Sparkles, 
+  Camera, 
+  Image as ImageIcon, 
+  Trash2, 
+  RefreshCw 
+} from 'lucide-react';
 import API from '../../services/api';
 import { generateListing } from '../../services/aiService'; 
 import { getMandiPrice } from '../../services/mandiService';
@@ -21,6 +32,7 @@ const PHOTO_PRESETS = [
 
 export const CreateListingModal = ({ isOpen, onClose, onListingCreated }) => {
   const { user } = useAuth();
+  const fileInputRef = useRef(null);
 
   const [formData, setFormData] = useState({
     cropName: '',
@@ -41,12 +53,119 @@ export const CreateListingModal = ({ isOpen, onClose, onListingCreated }) => {
     isOrganic: false
   });
 
+  const [imageSource, setImageSource] = useState('upload'); // 'upload' | 'preset'
+  const [uploadedFileInfo, setUploadedFileInfo] = useState(null);
+  const [isProcessingImage, setIsProcessingImage] = useState(false);
+  const [imageError, setImageError] = useState('');
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [aiLoading, setAiLoading] = useState(false);
   const [mandiData, setMandiData] = useState(null);
   const [mandiLoading, setMandiLoading] = useState(false);
+
+  const formatBytes = (bytes) => {
+    if (bytes < 1024) return bytes + ' B';
+    else if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+    else return (bytes / 1048576).toFixed(1) + ' MB';
+  };
+
+  // Image Upload & Canvas Compression Handler
+  const handleImageFileSelect = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];
+    if (!validTypes.includes(file.type.toLowerCase())) {
+      setImageError('Please select a valid image file (JPG, PNG, WEBP).');
+      return;
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+      setImageError('Image file is too large (max 10MB). Please select a smaller photo.');
+      return;
+    }
+
+    setImageError('');
+    setIsProcessingImage(true);
+
+    try {
+      const originalSize = formatBytes(file.size);
+      const reader = new FileReader();
+
+      reader.onload = (event) => {
+        const img = new window.Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const MAX_WIDTH = 1200;
+          const MAX_HEIGHT = 1200;
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height) {
+            if (width > MAX_WIDTH) {
+              height = Math.round((height * MAX_WIDTH) / width);
+              width = MAX_WIDTH;
+            }
+          } else {
+            if (height > MAX_HEIGHT) {
+              width = Math.round((width * MAX_HEIGHT) / height);
+              height = MAX_HEIGHT;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.85);
+
+          setFormData((prev) => ({
+            ...prev,
+            imageUrl: compressedDataUrl
+          }));
+
+          setUploadedFileInfo({
+            name: file.name,
+            originalSize,
+            preview: compressedDataUrl
+          });
+          setIsProcessingImage(false);
+        };
+
+        img.onerror = () => {
+          setImageError('Failed to process image. Please try another photo.');
+          setIsProcessingImage(false);
+        };
+
+        img.src = event.target.result;
+      };
+
+      reader.onerror = () => {
+        setImageError('Failed to read image file.');
+        setIsProcessingImage(false);
+      };
+
+      reader.readAsDataURL(file);
+    } catch (err) {
+      setImageError('Error uploading image. Please try again.');
+      setIsProcessingImage(false);
+    }
+  };
+
+  const handleRemoveUploadedImage = () => {
+    setUploadedFileInfo(null);
+    setImageError('');
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+    setFormData((prev) => ({
+      ...prev,
+      imageUrl: PHOTO_PRESETS[0].url
+    }));
+  };
 
   // Live Mandi Reference Price lookup effect (debounced)
   useEffect(() => {
@@ -385,36 +504,183 @@ Keep it clear, trustworthy and suitable for Indian buyers.
             </div>
           </div>
 
-          {/* Photo Preset Selector */}
-          <div>
-            <label className="block text-xs font-bold text-slate-700 mb-2">
-              Select Produce Photo Preset or Enter Image URL
-            </label>
-            <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 mb-2">
-              {PHOTO_PRESETS.map((preset) => (
+          {/* Produce Photo Section (Upload Real Photo or Sample Presets) */}
+          <div className="space-y-3 bg-slate-50/80 p-4 rounded-2xl border border-slate-200">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <label className="block text-xs font-bold text-slate-800">
+                  Produce Photo *
+                </label>
+                <p className="text-[11px] text-slate-500">
+                  Upload a real photo of your harvest or pick a sample photo
+                </p>
+              </div>
+
+              {/* Mode Toggle Switcher */}
+              <div className="inline-flex bg-slate-200/80 p-1 rounded-xl shrink-0 self-start sm:self-auto">
                 <button
                   type="button"
-                  key={preset.name}
-                  onClick={() => setFormData((prev) => ({ ...prev, imageUrl: preset.url }))}
-                  className={`p-1.5 rounded-xl border text-center transition ${
-                    formData.imageUrl === preset.url
-                      ? 'border-emerald-600 ring-2 ring-emerald-500 bg-emerald-50'
-                      : 'border-slate-200 hover:border-slate-300'
+                  onClick={() => {
+                    setImageSource('upload');
+                    if (uploadedFileInfo?.preview) {
+                      setFormData((prev) => ({ ...prev, imageUrl: uploadedFileInfo.preview }));
+                    }
+                  }}
+                  className={`px-3 py-1 rounded-lg text-xs font-bold transition flex items-center gap-1.5 ${
+                    imageSource === 'upload'
+                      ? 'bg-white text-emerald-800 shadow-xs'
+                      : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
-                  <img src={preset.url} alt={preset.name} className="w-full h-12 object-cover rounded-lg mb-1" />
-                  <span className="text-[10px] font-medium text-slate-700 block truncate">{preset.name}</span>
+                  <Camera size={13} className={imageSource === 'upload' ? 'text-emerald-600' : 'text-slate-500'} />
+                  <span>Upload Real Photo</span>
                 </button>
-              ))}
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setImageSource('preset');
+                  }}
+                  className={`px-3 py-1 rounded-lg text-xs font-bold transition flex items-center gap-1.5 ${
+                    imageSource === 'preset'
+                      ? 'bg-white text-emerald-800 shadow-xs'
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  <ImageIcon size={13} className={imageSource === 'preset' ? 'text-emerald-600' : 'text-slate-500'} />
+                  <span>Sample Presets</span>
+                </button>
+              </div>
             </div>
+
+            {imageError && (
+              <div className="p-2.5 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl flex items-center gap-2">
+                <ShieldAlert size={14} className="shrink-0" />
+                <span>{imageError}</span>
+              </div>
+            )}
+
+            {/* Hidden native file input for mobile camera / gallery capture */}
             <input
-              type="url"
-              name="imageUrl"
-              placeholder="Or paste an image URL..."
-              value={formData.imageUrl}
-              onChange={handleChange}
-              className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs"
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleImageFileSelect}
+              className="hidden"
+              id="produce-photo-input"
             />
+
+            {/* MODE 1: Upload Real Photo */}
+            {imageSource === 'upload' && (
+              <div>
+                {uploadedFileInfo ? (
+                  /* Preview Card for Uploaded Image */
+                  <div className="bg-white border-2 border-emerald-500/40 rounded-2xl p-3 sm:p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xs">
+                    <div className="flex items-center gap-3.5 w-full sm:w-auto">
+                      <div className="relative w-20 h-20 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 shrink-0 shadow-inner">
+                        <img
+                          src={uploadedFileInfo.preview}
+                          alt="Crop upload preview"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="space-y-1 min-w-0">
+                        <div className="flex items-center gap-1.5">
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-emerald-50 text-emerald-700 font-bold text-[10px] rounded-full border border-emerald-200">
+                            <CheckCircle2 size={11} className="text-emerald-600" />
+                            Photo Ready
+                          </span>
+                          <span className="text-[11px] text-slate-400">({uploadedFileInfo.originalSize})</span>
+                        </div>
+                        <p className="text-xs font-bold text-slate-800 truncate max-w-[200px] sm:max-w-[260px]">
+                          {uploadedFileInfo.name}
+                        </p>
+                        <p className="text-[11px] text-slate-500">
+                          Optimized for fast buyer browsing & marketplace display
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+                      <button
+                        type="button"
+                        onClick={() => fileInputRef.current?.click()}
+                        className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-xl transition flex items-center gap-1.5"
+                      >
+                        <RefreshCw size={13} />
+                        <span>Change</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleRemoveUploadedImage}
+                        className="px-3 py-1.5 bg-red-50 hover:bg-red-100 text-red-700 text-xs font-semibold rounded-xl transition flex items-center gap-1.5"
+                      >
+                        <Trash2 size={13} />
+                        <span>Remove</span>
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  /* Drag & Drop / Click Upload Box */
+                  <div
+                    onClick={() => fileInputRef.current?.click()}
+                    className="border-2 border-dashed border-emerald-300 hover:border-emerald-500 bg-white hover:bg-emerald-50/40 rounded-2xl p-6 text-center cursor-pointer transition group"
+                  >
+                    <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto mb-2.5 group-hover:scale-110 transition">
+                      {isProcessingImage ? (
+                        <div className="animate-spin rounded-full h-5 w-5 border-2 border-emerald-700 border-t-transparent" />
+                      ) : (
+                        <Camera size={24} />
+                      )}
+                    </div>
+                    <p className="text-xs font-bold text-slate-800 mb-0.5">
+                      {isProcessingImage ? 'Optimizing produce photo...' : 'Click to take photo or choose from device'}
+                    </p>
+                    <p className="text-[11px] text-slate-500">
+                      Supports Mobile Camera & Gallery • JPG, PNG, WEBP up to 10MB
+                    </p>
+                    <button
+                      type="button"
+                      className="mt-3 inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-emerald-600 group-hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition shadow-xs"
+                    >
+                      <Upload size={13} />
+                      <span>Select Crop Photo</span>
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* MODE 2: Sample Presets */}
+            {imageSource === 'preset' && (
+              <div className="space-y-2">
+                <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
+                  {PHOTO_PRESETS.map((preset) => (
+                    <button
+                      type="button"
+                      key={preset.name}
+                      onClick={() => setFormData((prev) => ({ ...prev, imageUrl: preset.url }))}
+                      className={`p-1.5 rounded-xl border text-center transition ${
+                        formData.imageUrl === preset.url
+                          ? 'border-emerald-600 ring-2 ring-emerald-500 bg-emerald-50'
+                          : 'border-slate-200 hover:border-slate-300 bg-white'
+                      }`}
+                    >
+                      <img src={preset.url} alt={preset.name} className="w-full h-12 object-cover rounded-lg mb-1" />
+                      <span className="text-[10px] font-medium text-slate-700 block truncate">{preset.name}</span>
+                    </button>
+                  ))}
+                </div>
+                <input
+                  type="url"
+                  name="imageUrl"
+                  placeholder="Or paste an image URL..."
+                  value={formData.imageUrl}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs"
+                />
+              </div>
+            )}
           </div>
 
           {/* Description & Organic Checkbox */}
