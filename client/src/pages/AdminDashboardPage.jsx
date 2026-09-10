@@ -85,7 +85,7 @@ export const AdminDashboardPage = () => {
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-xl sm:text-2xl font-extrabold">ACIRE Ministry Intelligence Hub</h1>
+              <h1 className="text-xl sm:text-2xl font-extrabold">KisanConnect Ministry Intelligence Hub</h1>
               <span className="px-2 py-0.5 bg-purple-500/20 text-purple-300 border border-purple-400/30 text-[10px] font-bold rounded-full">
                 Evaluation Center
               </span>

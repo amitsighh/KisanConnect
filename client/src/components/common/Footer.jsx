@@ -17,11 +17,11 @@ export const Footer = () => {
             <div className="flex items-center gap-2">
               <span className="text-2xl">🌾</span>
               <span className="text-lg font-black text-white tracking-tight">
-                ACIRE<span className="text-emerald-400">.AGRO</span>
+                KISAN<span className="text-emerald-400">CONNECT</span>
               </span>
             </div>
             <p className="text-xs text-slate-400 leading-relaxed font-medium">
-              Agro Connective Intelligence and Resource Exchange (ACIRE). Empowering India's farmers with direct-to-buyer connective intelligence and smart resource pooling.
+              KisanConnect Direct Farmer-to-Buyer Marketplace. Empowering India's farmers with direct market access, transparent pricing, and smart resource pooling.
             </p>
             <div className="flex items-center gap-2 text-xs text-emerald-400 bg-emerald-950/60 p-2.5 rounded-xl border border-emerald-800/40">
               <ShieldCheck size={16} />
@@ -75,7 +75,7 @@ export const Footer = () => {
         </div>
 
         <div className="mt-10 pt-6 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
-          <p>© 2026 Agro Connective Intelligence and Resource Exchange (ACIRE).</p>
+          <p>© 2026 KisanConnect Direct Farmer Marketplace.</p>
           <p className="flex items-center gap-1">
             Built with <Heart size={12} className="text-red-400 fill-red-400" /> for Indian Farmers
           </p>
