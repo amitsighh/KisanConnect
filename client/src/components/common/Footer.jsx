@@ -1,8 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ShieldCheck, Heart, PhoneCall, Globe2 } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
+import LanguageSelector from './LanguageSelector';
 
 export const Footer = () => {
+  const { t } = useLanguage();
+
   return (
     <footer className="bg-slate-900 text-slate-400 text-sm mt-20 border-t border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -12,14 +16,14 @@ export const Footer = () => {
           <div className="space-y-4 md:col-span-1">
             <div className="flex items-center gap-2">
               <span className="text-2xl">🌾</span>
-              <span className="text-lg font-bold text-white tracking-tight">
-                Kisan<span className="text-emerald-400">Connect</span>
+              <span className="text-lg font-black text-white tracking-tight">
+                ACIRE<span className="text-emerald-400">.AGRO</span>
               </span>
             </div>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Empowering India's farmers by bypassing multi-layered middlemen. Direct farm-gate procurement for retail chains, FPOs, and bulk buyers.
+            <p className="text-xs text-slate-400 leading-relaxed font-medium">
+              Agro Connective Intelligence and Resource Exchange (ACIRE). Empowering India's farmers with direct-to-buyer connective intelligence and smart resource pooling.
             </p>
-            <div className="flex items-center gap-2 text-xs text-emerald-400 bg-emerald-950/60 p-2.5 rounded-lg border border-emerald-800/40">
+            <div className="flex items-center gap-2 text-xs text-emerald-400 bg-emerald-950/60 p-2.5 rounded-xl border border-emerald-800/40">
               <ShieldCheck size={16} />
               <span>SIH Problem Statement: SIH26033</span>
             </div>
@@ -27,7 +31,7 @@ export const Footer = () => {
 
           {/* Col 2 */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200 mb-3">Marketplace</h4>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200 mb-3">{t('navMarketplace', 'Marketplace')}</h4>
             <ul className="space-y-2 text-xs">
               <li><Link to="/marketplace?category=Cereals+%26+Grains" className="hover:text-white transition">Cereals & Grains (Wheat, Rice)</Link></li>
               <li><Link to="/marketplace?category=Pulses" className="hover:text-white transition">Pulses & Lentils (Dal, Chana)</Link></li>
@@ -49,12 +53,14 @@ export const Footer = () => {
           </div>
 
           {/* Col 4 */}
-          <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200 mb-3">Ministry & Support</h4>
-            <p className="text-xs text-slate-400 mb-3">
-              Supported for Ministry of Consumer Affairs, Food & Public Distribution.
-            </p>
-            <div className="space-y-2 text-xs">
+          <div className="space-y-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200">{t('language', 'Language')} & Support</h4>
+            
+            <div className="py-1">
+              <LanguageSelector variant="card" />
+            </div>
+
+            <div className="space-y-2 text-xs pt-1">
               <div className="flex items-center gap-2 text-slate-300">
                 <PhoneCall size={14} className="text-emerald-400" />
                 <span>Kisan Helpline: 1800-180-1551</span>
@@ -69,7 +75,7 @@ export const Footer = () => {
         </div>
 
         <div className="mt-10 pt-6 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
-          <p>© 2026 KisanConnect — National Agricultural Direct Marketplace Initiative.</p>
+          <p>© 2026 Agro Connective Intelligence and Resource Exchange (ACIRE).</p>
           <p className="flex items-center gap-1">
             Built with <Heart size={12} className="text-red-400 fill-red-400" /> for Indian Farmers
           </p>

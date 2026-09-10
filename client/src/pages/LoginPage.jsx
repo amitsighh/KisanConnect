@@ -86,12 +86,12 @@ export const LoginPage = () => {
         </div>
       </div>
 
-      {/* Main Login Card */}
-      <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-xs space-y-6">
-        <div className="text-center space-y-1">
-          <h1 className="text-2xl font-extrabold text-slate-900">Sign in to KisanConnect</h1>
-          <p className="text-xs text-slate-500">Access your verified farm listings, bids, orders, and settlements</p>
-        </div>
+        {/* Main Login Card */}
+        <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-xs space-y-6">
+          <div className="text-center space-y-1">
+            <h1 className="text-2xl font-extrabold text-slate-900">Sign in to ACIRE</h1>
+            <p className="text-xs text-slate-500">Agro Connective Intelligence & Resource Exchange Platform</p>
+          </div>
 
         {error && (
           <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl flex items-center gap-2">

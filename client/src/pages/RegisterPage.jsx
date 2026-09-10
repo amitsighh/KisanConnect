@@ -70,8 +70,8 @@ export const RegisterPage = () => {
       <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-xs space-y-6">
         
         <div className="text-center space-y-1">
-          <h1 className="text-2xl font-extrabold text-slate-900">Create KisanConnect Account</h1>
-          <p className="text-xs text-slate-500">Join India's direct farm-to-buyer agricultural network</p>
+          <h1 className="text-2xl font-extrabold text-slate-900">Create ACIRE Account</h1>
+          <p className="text-xs text-slate-500">Agro Connective Intelligence & Resource Exchange Network</p>
         </div>
 
         {/* Role Selector Tabs */}

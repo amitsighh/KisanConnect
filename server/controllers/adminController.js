@@ -9,6 +9,7 @@ exports.getStats = async (req, res) => {
     const { data: listings = [] } = await supabase.from('listings').select('*');
     const { data: orders = [] } = await supabase.from('orders').select('*');
     const { data: offers = [] } = await supabase.from('offers').select('*');
+    const { data: pools = [] } = await supabase.from('smart_pools').select('*');
 
     const totalUsers = users.length;
     const totalFarmers = users.filter((u) => u.role === 'farmer').length;
@@ -24,6 +25,11 @@ exports.getStats = async (req, res) => {
     const validOrders = orders.filter((o) => o.order_status !== 'Cancelled');
     const totalGMV = validOrders.reduce((sum, o) => sum + (Number(o.total_amount) || 0), 0);
     const estimatedMiddlemanSavings = Math.round(totalGMV * 0.35);
+
+    // Smart Pool Analytics
+    const totalPools = pools.length;
+    const activePoolsCount = pools.filter((p) => ['OPEN', 'FILLING', 'FULL', 'CONFIRMED'].includes(p.status)).length;
+    const totalPooledQty = pools.reduce((sum, p) => sum + Number(p.current_quantity || 0), 0);
 
     // Category distribution
     const categoryMap = {};
@@ -61,6 +67,9 @@ exports.getStats = async (req, res) => {
         estimatedMiddlemanSavings,
         totalOffers,
         acceptedOffers,
+        totalPools,
+        activePoolsCount,
+        totalPooledQty,
         categoryStats,
         stateStats
       }

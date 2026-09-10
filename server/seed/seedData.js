@@ -587,6 +587,279 @@ const seedDB = async () => {
       }
     }
 
+    console.log('[Seed] Seeding 12 Demand Map locations for UP region...');
+
+    const demandLocationsPayload = [
+      {
+        area: 'Lucknow',
+        state: 'Uttar Pradesh',
+        lat: 26.8467,
+        lng: 80.9462,
+        crops: [
+          { crop: 'Tomato', demand_level: 'HIGH', demand_quantity: 4500, unit: 'kg', buyers_count: 18, avg_price_per_unit: 42 },
+          { crop: 'Wheat', demand_level: 'HIGH', demand_quantity: 8200, unit: 'kg', buyers_count: 22, avg_price_per_unit: 25 },
+          { crop: 'Potato', demand_level: 'MEDIUM', demand_quantity: 3100, unit: 'kg', buyers_count: 11, avg_price_per_unit: 18 },
+          { crop: 'Onion', demand_level: 'HIGH', demand_quantity: 5000, unit: 'kg', buyers_count: 19, avg_price_per_unit: 28 },
+          { crop: 'Rice', demand_level: 'MEDIUM', demand_quantity: 3900, unit: 'kg', buyers_count: 12, avg_price_per_unit: 48 }
+        ],
+        buyers_list: [
+          { name: 'FreshMart Supermarkets', requirement: '1500 kg Tomato', buyer_type: 'Retail Chain' },
+          { name: 'Awadh Hotel Group', requirement: '800 kg Tomato', buyer_type: 'HORECA' },
+          { name: 'Lucknow Subzi Mandi FPO', requirement: '2200 kg Tomato', buyer_type: 'Wholesaler' }
+        ]
+      },
+      {
+        area: 'Kanpur',
+        state: 'Uttar Pradesh',
+        lat: 26.4499,
+        lng: 80.3319,
+        crops: [
+          { crop: 'Tomato', demand_level: 'HIGH', demand_quantity: 3200, unit: 'kg', buyers_count: 12, avg_price_per_unit: 40 },
+          { crop: 'Rice', demand_level: 'HIGH', demand_quantity: 6500, unit: 'kg', buyers_count: 15, avg_price_per_unit: 46 },
+          { crop: 'Onion', demand_level: 'HIGH', demand_quantity: 4200, unit: 'kg', buyers_count: 14, avg_price_per_unit: 26 },
+          { crop: 'Wheat', demand_level: 'MEDIUM', demand_quantity: 4100, unit: 'kg', buyers_count: 9, avg_price_per_unit: 24 }
+        ],
+        buyers_list: [
+          { name: 'Kanpur Central Agro Mart', requirement: '2000 kg Rice', buyer_type: 'Wholesaler' },
+          { name: 'Ganga Food Processors', requirement: '1200 kg Tomato', buyer_type: 'Food Processor' }
+        ]
+      },
+      {
+        area: 'Barabanki',
+        state: 'Uttar Pradesh',
+        lat: 26.9260,
+        lng: 81.1834,
+        crops: [
+          { crop: 'Tomato', demand_level: 'MEDIUM', demand_quantity: 1800, unit: 'kg', buyers_count: 7, avg_price_per_unit: 38 },
+          { crop: 'Potato', demand_level: 'HIGH', demand_quantity: 4200, unit: 'kg', buyers_count: 13, avg_price_per_unit: 16 },
+          { crop: 'Wheat', demand_level: 'MEDIUM', demand_quantity: 2600, unit: 'kg', buyers_count: 6, avg_price_per_unit: 24 }
+        ],
+        buyers_list: [
+          { name: 'Barabanki Krishi Cold Storage', requirement: '1800 kg Tomato', buyer_type: 'Aggregator' }
+        ]
+      },
+      {
+        area: 'Unnao',
+        state: 'Uttar Pradesh',
+        lat: 26.5393,
+        lng: 80.4878,
+        crops: [
+          { crop: 'Tomato', demand_level: 'LOW', demand_quantity: 700, unit: 'kg', buyers_count: 3, avg_price_per_unit: 34 },
+          { crop: 'Wheat', demand_level: 'LOW', demand_quantity: 1200, unit: 'kg', buyers_count: 4, avg_price_per_unit: 23 }
+        ],
+        buyers_list: [
+          { name: 'Unnao Local Subzi Hub', requirement: '700 kg Tomato', buyer_type: 'Local Retailer' }
+        ]
+      },
+      {
+        area: 'Sitapur',
+        state: 'Uttar Pradesh',
+        lat: 27.5612,
+        lng: 80.6826,
+        crops: [
+          { crop: 'Tomato', demand_level: 'HIGH', demand_quantity: 3800, unit: 'kg', buyers_count: 14, avg_price_per_unit: 41 },
+          { crop: 'Rice', demand_level: 'HIGH', demand_quantity: 5400, unit: 'kg', buyers_count: 13, avg_price_per_unit: 45 },
+          { crop: 'Potato', demand_level: 'MEDIUM', demand_quantity: 2200, unit: 'kg', buyers_count: 8, avg_price_per_unit: 17 }
+        ],
+        buyers_list: [
+          { name: 'Sitapur Food Processing Co.', requirement: '2500 kg Tomato', buyer_type: 'Food Processor' }
+        ]
+      },
+      {
+        area: 'Raebareli',
+        state: 'Uttar Pradesh',
+        lat: 26.2167,
+        lng: 81.2333,
+        crops: [
+          { crop: 'Tomato', demand_level: 'MEDIUM', demand_quantity: 2100, unit: 'kg', buyers_count: 8, avg_price_per_unit: 37 },
+          { crop: 'Onion', demand_level: 'HIGH', demand_quantity: 2900, unit: 'kg', buyers_count: 10, avg_price_per_unit: 27 }
+        ],
+        buyers_list: [
+          { name: 'Raebareli Wholesale Traders', requirement: '2100 kg Tomato', buyer_type: 'Wholesaler' }
+        ]
+      },
+      {
+        area: 'Ayodhya',
+        state: 'Uttar Pradesh',
+        lat: 26.7922,
+        lng: 82.1998,
+        crops: [
+          { crop: 'Tomato', demand_level: 'HIGH', demand_quantity: 4100, unit: 'kg', buyers_count: 16, avg_price_per_unit: 44 },
+          { crop: 'Wheat', demand_level: 'HIGH', demand_quantity: 7500, unit: 'kg', buyers_count: 20, avg_price_per_unit: 25 },
+          { crop: 'Rice', demand_level: 'HIGH', demand_quantity: 6200, unit: 'kg', buyers_count: 17, avg_price_per_unit: 47 }
+        ],
+        buyers_list: [
+          { name: 'Ayodhya Pilgrimage HORECA Alliance', requirement: '3000 kg Tomato', buyer_type: 'Hotel Chain' }
+        ]
+      },
+      {
+        area: 'Hardoi',
+        state: 'Uttar Pradesh',
+        lat: 27.3989,
+        lng: 80.1309,
+        crops: [
+          { crop: 'Tomato', demand_level: 'LOW', demand_quantity: 600, unit: 'kg', buyers_count: 2, avg_price_per_unit: 32 },
+          { crop: 'Potato', demand_level: 'MEDIUM', demand_quantity: 1100, unit: 'kg', buyers_count: 5, avg_price_per_unit: 15 }
+        ],
+        buyers_list: [
+          { name: 'Hardoi Farmers Collective', requirement: '600 kg Tomato', buyer_type: 'Local Retailer' }
+        ]
+      },
+      {
+        area: 'Lakhimpur',
+        state: 'Uttar Pradesh',
+        lat: 27.9479,
+        lng: 80.7787,
+        crops: [
+          { crop: 'Tomato', demand_level: 'MEDIUM', demand_quantity: 1600, unit: 'kg', buyers_count: 6, avg_price_per_unit: 36 },
+          { crop: 'Rice', demand_level: 'HIGH', demand_quantity: 3800, unit: 'kg', buyers_count: 8, avg_price_per_unit: 44 }
+        ],
+        buyers_list: [
+          { name: 'Terai Grain Merchants', requirement: '1600 kg Tomato', buyer_type: 'Wholesaler' }
+        ]
+      },
+      {
+        area: 'Fatehpur',
+        state: 'Uttar Pradesh',
+        lat: 25.9304,
+        lng: 80.8128,
+        crops: [
+          { crop: 'Tomato', demand_level: 'LOW', demand_quantity: 900, unit: 'kg', buyers_count: 4, avg_price_per_unit: 33 },
+          { crop: 'Onion', demand_level: 'MEDIUM', demand_quantity: 1500, unit: 'kg', buyers_count: 6, avg_price_per_unit: 25 }
+        ],
+        buyers_list: [
+          { name: 'Fatehpur Produce Bazaar', requirement: '900 kg Tomato', buyer_type: 'Local Retailer' }
+        ]
+      },
+      {
+        area: 'Prayagraj',
+        state: 'Uttar Pradesh',
+        lat: 25.4358,
+        lng: 81.8463,
+        crops: [
+          { crop: 'Tomato', demand_level: 'HIGH', demand_quantity: 3600, unit: 'kg', buyers_count: 13, avg_price_per_unit: 43 },
+          { crop: 'Wheat', demand_level: 'HIGH', demand_quantity: 6800, unit: 'kg', buyers_count: 17, avg_price_per_unit: 25 },
+          { crop: 'Potato', demand_level: 'MEDIUM', demand_quantity: 2800, unit: 'kg', buyers_count: 9, avg_price_per_unit: 17 }
+        ],
+        buyers_list: [
+          { name: 'Sangam Agro Traders', requirement: '2000 kg Tomato', buyer_type: 'Wholesaler' }
+        ]
+      },
+      {
+        area: 'Bareilly',
+        state: 'Uttar Pradesh',
+        lat: 28.3670,
+        lng: 79.4304,
+        crops: [
+          { crop: 'Tomato', demand_level: 'MEDIUM', demand_quantity: 2400, unit: 'kg', buyers_count: 9, avg_price_per_unit: 39 },
+          { crop: 'Potato', demand_level: 'HIGH', demand_quantity: 4000, unit: 'kg', buyers_count: 12, avg_price_per_unit: 18 }
+        ],
+        buyers_list: [
+          { name: 'Rohilkhand Food Hub', requirement: '2400 kg Tomato', buyer_type: 'Distributor' }
+        ]
+      }
+    ];
+
+    await supabase.from('demand_locations').insert(demandLocationsPayload);
+
+    console.log('[Seed] Seeding realistic Smart Pools & Pool Members...');
+
+    // Seed Sample Smart Pool 1: 500 kg Tomato pool
+    const { data: pool1 } = await supabase.from('smart_pools').insert({
+      pool_code: 'POOL-TOM-500',
+      buyer_id: buyer1Id,
+      crop: 'Tomato',
+      required_quantity: 500,
+      current_quantity: 420,
+      remaining_quantity: 80,
+      unit: 'kg',
+      delivery_location: 'Lucknow APMC Wholesale Yard',
+      delivery_lat: 26.8467,
+      delivery_lng: 80.9462,
+      radius_km: 100,
+      harvest_date: '2026-03-30',
+      quality_grade: 'Grade A (Premium)',
+      target_price_per_unit: 45,
+      logistics_cost_total: 2500,
+      total_payment: 22500, // 500 * 45
+      status: 'FILLING',
+      expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()
+    }).select('*').single();
+
+    if (pool1) {
+      // Add 7 participating dummy farmers
+      const sampleContributions = [
+        { farmerId: farmer1Id, qty: 50 },
+        { farmerId: farmer3Id, qty: 70 },
+        { farmerId: farmer2Id, qty: 100 },
+        { farmerId: farmer4Id, qty: 80 },
+        { farmerId: farmer5Id, qty: 60 },
+        { farmerId: farmer6Id, qty: 40 },
+        { farmerId: farmer1Id, qty: 20 }
+      ];
+
+      for (const item of sampleContributions) {
+        await supabase.from('pool_members').insert({
+          pool_id: pool1.id,
+          farmer_id: item.farmerId,
+          contributed_quantity: item.qty,
+          agreed_price: 45,
+          status: 'JOINED',
+          joined_at: new Date().toISOString()
+        });
+      }
+
+      // Notification for farmer1
+      await supabase.from('notifications').insert({
+        user_id: farmer1Id,
+        type: 'POOL_MATCH',
+        title: '🌾 Bulk Tomato Order Available Near You!',
+        message: 'Buyer FreshMart Supermarkets needs 500 kg Tomato near Lucknow. 7 farmers joined (420/500 kg filled). You can contribute 50 kg!',
+        pool_id: pool1.id,
+        suggested_qty: 50,
+        is_read: false
+      });
+    }
+
+    // Seed Sample Smart Pool 2: 1000 kg Sharbati Wheat pool
+    const { data: pool2 } = await supabase.from('smart_pools').insert({
+      pool_code: 'POOL-WHT-1000',
+      buyer_id: buyer2Id,
+      crop: 'Wheat',
+      required_quantity: 1000,
+      current_quantity: 650,
+      remaining_quantity: 350,
+      unit: 'kg',
+      delivery_location: 'Azadpur Terminal Market, Delhi',
+      delivery_lat: 28.7041,
+      delivery_lng: 77.1025,
+      radius_km: 200,
+      harvest_date: '2026-04-05',
+      quality_grade: 'Grade A (Premium)',
+      target_price_per_unit: 26,
+      logistics_cost_total: 4000,
+      total_payment: 26000,
+      status: 'OPEN',
+      expires_at: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString()
+    }).select('*').single();
+
+    if (pool2) {
+      await supabase.from('pool_members').insert([
+        { pool_id: pool2.id, farmer_id: farmer1Id, contributed_quantity: 400, agreed_price: 26, status: 'JOINED', joined_at: new Date().toISOString() },
+        { pool_id: pool2.id, farmer_id: farmer2Id, contributed_quantity: 250, agreed_price: 26, status: 'JOINED', joined_at: new Date().toISOString() }
+      ]);
+
+      await supabase.from('notifications').insert({
+        user_id: farmer3Id,
+        type: 'POOL_MATCH',
+        title: '🌾 High Demand Bulk Wheat Order!',
+        message: 'Swad HORECA needs 1,000 kg Premium Wheat. Current pool is at 650/1,000 kg. Join to secure bulk selling!',
+        pool_id: pool2.id,
+        suggested_qty: 150,
+        is_read: false
+      });
+    }
+
     console.log('[Seed] Supabase database seeded successfully with realistic Indian agricultural marketplace data!');
   } catch (error) {
     console.error('[Seed] Error populating seed data:', error);

@@ -11,16 +11,21 @@ import {
   AlertTriangle,
   ToggleLeft,
   ToggleRight,
-  MapPin
+  MapPin,
+  Layers
 } from 'lucide-react';
 
+import AdminPoolsView from '../components/admin/AdminPoolsView';
+import { useLanguage } from '../context/LanguageContext';
+
 export const AdminDashboardPage = () => {
+  const { t } = useLanguage();
   const [stats, setStats] = useState(null);
   const [users, setUsers] = useState([]);
   const [listings, setListings] = useState([]);
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'users' | 'listings' | 'orders'
+  const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'pools' | 'users' | 'listings' | 'orders'
 
   const fetchAdminData = async () => {
     try {
@@ -80,9 +85,9 @@ export const AdminDashboardPage = () => {
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-xl sm:text-2xl font-extrabold">MoCA & FPD Ministry Intelligence Hub</h1>
+              <h1 className="text-xl sm:text-2xl font-extrabold">ACIRE Ministry Intelligence Hub</h1>
               <span className="px-2 py-0.5 bg-purple-500/20 text-purple-300 border border-purple-400/30 text-[10px] font-bold rounded-full">
-                SIH26033 Evaluation Center
+                Evaluation Center
               </span>
             </div>
             <p className="text-xs text-slate-300 mt-0.5">
@@ -97,34 +102,34 @@ export const AdminDashboardPage = () => {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           
           <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-1">
-            <span className="text-xs text-slate-500 font-semibold block">Total Trade Volume (GMV)</span>
-            <span className="text-2xl font-black text-slate-900">₹{stats.totalGMV.toLocaleString('en-IN')}</span>
-            <span className="text-[11px] text-emerald-600 font-medium block">Across all completed lots</span>
+            <span className="text-xs text-slate-500 font-semibold block">{t('totalGMV')}</span>
+            <span className="text-2xl font-black text-slate-900">₹{(stats.totalGMV || 0).toLocaleString()}</span>
+            <span className="text-[11px] text-emerald-600 font-bold block">Direct farmer revenue</span>
           </div>
 
           <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-1">
-            <span className="text-xs text-slate-500 font-semibold block">Intermediary Margin Saved</span>
-            <span className="text-2xl font-black text-emerald-700">₹{stats.estimatedMiddlemanSavings.toLocaleString('en-IN')}</span>
-            <span className="text-[11px] text-emerald-600 font-medium block">~35% direct farmer value preserved</span>
+            <span className="text-xs text-slate-500 font-semibold block">{t('savings')}</span>
+            <span className="text-2xl font-black text-emerald-700">₹{(stats.estimatedIntermediarySavings || 0).toLocaleString()}</span>
+            <span className="text-[11px] text-emerald-600 font-bold block">Retained by farmers</span>
           </div>
 
           <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-1">
-            <span className="text-xs text-slate-500 font-semibold block">Registered Farmers</span>
-            <span className="text-2xl font-black text-slate-900">{stats.totalFarmers}</span>
-            <span className="text-[11px] text-slate-500 font-medium block">Active producers & FPOs</span>
+            <span className="text-xs text-slate-500 font-semibold block">Active Users</span>
+            <span className="text-2xl font-black text-slate-900">{stats.totalUsers || 0}</span>
+            <span className="text-[11px] text-slate-500 font-medium block">{stats.totalFarmers || 0} Farmers • {stats.totalBuyers || 0} Buyers</span>
           </div>
 
           <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-1">
-            <span className="text-xs text-slate-500 font-semibold block">Bulk & Retail Buyers</span>
-            <span className="text-2xl font-black text-slate-900">{stats.totalBuyers}</span>
-            <span className="text-[11px] text-slate-500 font-medium block">Supermarkets & HORECA</span>
+            <span className="text-xs text-slate-500 font-semibold block">Smart Pools Active</span>
+            <span className="text-2xl font-black text-purple-700">{stats.activePoolsCount || 0}</span>
+            <span className="text-[11px] text-purple-600 font-medium block">{stats.totalPooledQty || 0} units pooled</span>
           </div>
 
         </div>
       )}
 
       {/* Navigation Tabs */}
-      <div className="border-b border-slate-200 flex gap-2">
+      <div className="border-b border-slate-200 flex flex-wrap gap-2">
         <button
           onClick={() => setActiveTab('overview')}
           className={`pb-3 px-4 font-bold text-xs sm:text-sm transition relative ${
@@ -133,7 +138,19 @@ export const AdminDashboardPage = () => {
               : 'text-slate-500 hover:text-slate-800'
           }`}
         >
-          National Impact Overview
+          {t('tabOverview')}
+        </button>
+
+        <button
+          onClick={() => setActiveTab('pools')}
+          className={`pb-3 px-4 font-bold text-xs sm:text-sm transition relative flex items-center gap-1.5 ${
+            activeTab === 'pools'
+              ? 'text-purple-700 border-b-2 border-purple-600'
+              : 'text-slate-500 hover:text-slate-800'
+          }`}
+        >
+          <Layers size={16} />
+          <span>{t('tabAnalytics')}</span>
         </button>
 
         <button
@@ -169,6 +186,9 @@ export const AdminDashboardPage = () => {
           Platform Orders Log ({orders.length})
         </button>
       </div>
+
+      {/* Tab Content */}
+      {activeTab === 'pools' && <AdminPoolsView />}
 
       {/* Tab 1: Overview */}
       {activeTab === 'overview' && stats && (

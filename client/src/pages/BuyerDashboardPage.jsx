@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import { ShoppingCart, Package, Handshake, ShieldCheck } from 'lucide-react';
+import { ShoppingCart, Package, Handshake, ShieldCheck, Layers } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import BuyerOrdersView from '../components/buyer/BuyerOrdersView';
 import BuyerOffersView from '../components/buyer/BuyerOffersView';
+import BuyerPoolsView from '../components/buyer/BuyerPoolsView';
 
 export const BuyerDashboardPage = () => {
   const { user } = useAuth();
-  const [activeTab, setActiveTab] = useState('orders'); // 'orders' | 'offers'
+  const { t } = useLanguage();
+  const [activeTab, setActiveTab] = useState('pools'); // 'pools' | 'orders' | 'offers'
 
   return (
     <div className="space-y-8">
@@ -22,7 +25,7 @@ export const BuyerDashboardPage = () => {
               <h1 className="text-xl sm:text-2xl font-extrabold">{user?.name}</h1>
               {user?.isVerified && (
                 <span className="px-2 py-0.5 bg-blue-500/20 text-blue-300 border border-blue-400/30 text-[10px] font-bold rounded-full flex items-center gap-1">
-                  <ShieldCheck size={12} /> Verified Buyer
+                  <ShieldCheck size={12} /> {t('verifiedBuyer')}
                 </span>
               )}
             </div>
@@ -34,7 +37,19 @@ export const BuyerDashboardPage = () => {
       </div>
 
       {/* Tabs */}
-      <div className="border-b border-slate-200 flex gap-2">
+      <div className="border-b border-slate-200 flex flex-wrap gap-2">
+        <button
+          onClick={() => setActiveTab('pools')}
+          className={`pb-3 px-4 font-bold text-xs sm:text-sm transition relative flex items-center gap-1.5 ${
+            activeTab === 'pools'
+              ? 'text-blue-700 border-b-2 border-blue-600'
+              : 'text-slate-500 hover:text-slate-800'
+          }`}
+        >
+          <Layers size={16} />
+          <span>{t('tabBulkProcurement')}</span>
+        </button>
+
         <button
           onClick={() => setActiveTab('orders')}
           className={`pb-3 px-4 font-bold text-xs sm:text-sm transition relative flex items-center gap-1.5 ${
@@ -44,7 +59,7 @@ export const BuyerDashboardPage = () => {
           }`}
         >
           <Package size={16} />
-          <span>My Orders & Live Tracking</span>
+          <span>{t('tabDirectOrders')}</span>
         </button>
 
         <button
@@ -56,11 +71,12 @@ export const BuyerDashboardPage = () => {
           }`}
         >
           <Handshake size={16} />
-          <span>My Price Offers & Negotiations</span>
+          <span>{t('tabNegotiations')}</span>
         </button>
       </div>
 
       {/* Tab Content */}
+      {activeTab === 'pools' && <BuyerPoolsView />}
       {activeTab === 'orders' && <BuyerOrdersView />}
       {activeTab === 'offers' && <BuyerOffersView />}
 
@@ -69,3 +85,4 @@ export const BuyerDashboardPage = () => {
 };
 
 export default BuyerDashboardPage;
+

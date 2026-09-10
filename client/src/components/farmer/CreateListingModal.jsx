@@ -153,7 +153,7 @@ Keep it clear, trustworthy and suitable for Indian buyers.
       const res = await API.post('/listings', payload);
 
       if (res.data.success) {
-        setSuccess('Produce listed successfully on KisanConnect marketplace!');
+        setSuccess('Produce listed successfully on ACIRE marketplace!');
         setTimeout(() => {
           setSuccess('');
           onClose();
